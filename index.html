@@ -370,8 +370,8 @@
   // Notion gives us, rather than trusting the vh unit (which can misbehave
   // inside embed iframes and cause clipping).
   function sizeWidget(){
-    const w = document.documentElement.clientWidth;
-    const h = document.documentElement.clientHeight;
+    const w = Math.max(document.documentElement.clientWidth, window.innerWidth || 0);
+    const h = Math.max(document.documentElement.clientHeight, window.innerHeight || 0);
     const size = Math.max(60, Math.min(w, h));
     const widget = document.querySelector('.widget');
     widget.style.width = size + 'px';
@@ -382,6 +382,14 @@
   sizeWidget();
   setTimeout(sizeWidget, 300);
   setTimeout(sizeWidget, 1000);
+  setTimeout(sizeWidget, 2500);
+
+  // Notion's embed iframe can settle its real height asynchronously —
+  // ResizeObserver catches that the moment it happens, rather than
+  // guessing with fixed delays.
+  if (window.ResizeObserver) {
+    new ResizeObserver(sizeWidget).observe(document.documentElement);
+  }
 
   // Auto-detects the real current date — no manual editing needed.
   const now = new Date();
