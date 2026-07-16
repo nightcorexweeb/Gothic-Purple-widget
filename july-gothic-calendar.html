@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>July · Gothic Calendar</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@500;600;700&family=UnifrakturMaguntia&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:          #0b0614;
+    --deep-violet:   #1c0a30;
+    --mid-violet:    #33144e;
+    --blood-magenta: #7a1a6b;
+    --eerie-purple:  #b23bff;
+    --eerie-red:     #ff3d6e;
+    --moon-sick:     #cdb9de;
+    --text-parch:    #e9dcf5;
+    --text-dim:      #9d84b8;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; height:100%; background:transparent; }
+
+  body{
+    font-family:'Cormorant Garamond', serif;
+    display:flex; align-items:center; justify-content:center;
+    min-height:100vh;
+  }
+
+  .widget{
+    position:relative;
+    width:380px;
+    max-width:94vw;
+    border-radius:6px;
+    overflow:hidden;
+    background:
+      radial-gradient(ellipse at 50% 0%, rgba(178,59,255,0.10), transparent 55%),
+      linear-gradient(180deg, var(--void) 0%, var(--deep-violet) 45%, #150826 100%);
+    box-shadow:
+      0 30px 70px -20px rgba(0,0,0,0.85),
+      0 0 0 1px rgba(178,59,255,0.18) inset,
+      0 0 40px rgba(122,26,107,0.25);
+    color:var(--text-parch);
+  }
+
+  .widget::before, .widget::after{
+    content:"";
+    position:absolute;
+    width:9px; height:9px;
+    border:1px solid rgba(178,59,255,0.5);
+    transform:rotate(45deg);
+    z-index:5;
+  }
+  .widget::before{ top:10px; left:10px; }
+  .widget::after{ top:10px; right:10px; }
+  .corner-bl, .corner-br{
+    content:"";
+    position:absolute;
+    width:9px; height:9px;
+    border:1px solid rgba(178,59,255,0.5);
+    transform:rotate(45deg);
+    z-index:5;
+  }
+  .corner-bl{ bottom:10px; left:10px; }
+  .corner-br{ bottom:10px; right:10px; }
+
+  /* ---------- sky ---------- */
+  .sky{
+    position:relative;
+    height:158px;
+    overflow:hidden;
+    clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
+  }
+
+  .stars{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.4px 1.4px at 24px 26px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 64px 66px, #e9dcf5, transparent),
+      radial-gradient(1.4px 1.4px at 104px 18px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 150px 50px, #e9dcf5, transparent),
+      radial-gradient(1.4px 1.4px at 190px 12px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 230px 38px, #e9dcf5, transparent),
+      radial-gradient(1.4px 1.4px at 270px 60px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 310px 22px, #e9dcf5, transparent),
+      radial-gradient(1.4px 1.4px at 340px 46px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 46px 86px, #e9dcf5, transparent);
+    opacity:0.5;
+    animation: twinkle 5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{ from{opacity:0.3;} to{opacity:0.7;} }
+
+  .moon{
+    position:absolute;
+    top:20px; left:50%;
+    transform:translateX(-50%);
+    width:44px; height:44px;
+    border-radius:50%;
+    background:radial-gradient(circle at 38% 32%, #e8dcef 0%, var(--moon-sick) 45%, #7a5f92 100%);
+    box-shadow:
+      0 0 22px 6px rgba(255,61,110,0.35),
+      0 0 46px 14px rgba(178,59,255,0.30);
+    animation: eerie-pulse 3.2s ease-in-out infinite;
+  }
+  @keyframes eerie-pulse{
+    0%,100%{ box-shadow:0 0 22px 6px rgba(255,61,110,0.30), 0 0 46px 14px rgba(178,59,255,0.25); }
+    50%{ box-shadow:0 0 30px 10px rgba(255,61,110,0.55), 0 0 60px 20px rgba(178,59,255,0.45); }
+  }
+  .moon::before{
+    content:"";
+    position:absolute;
+    top:32%; left:22%;
+    width:5px; height:5px;
+    border-radius:50%;
+    background:rgba(60,20,50,0.35);
+  }
+  .moon::after{
+    content:"";
+    position:absolute;
+    top:55%; left:55%;
+    width:7px; height:7px;
+    border-radius:50%;
+    background:rgba(60,20,50,0.28);
+  }
+
+  /* bats */
+  .bat{
+    position:absolute;
+    top:70px;
+    width:14px; height:6px;
+    opacity:0.85;
+  }
+  .bat::before, .bat::after{
+    content:"";
+    position:absolute;
+    top:0;
+    width:8px; height:8px;
+    background:var(--void);
+    border-radius:60% 60% 10% 10%;
+  }
+  .bat::before{ left:-4px; transform-origin:right center; animation:flapL 0.5s ease-in-out infinite; }
+  .bat::after{ right:-4px; transform-origin:left center; animation:flapR 0.5s ease-in-out infinite; }
+  @keyframes flapL{ 0%,100%{ transform:rotate(15deg) scaleY(1);} 50%{ transform:rotate(60deg) scaleY(0.55);} }
+  @keyframes flapR{ 0%,100%{ transform:rotate(-15deg) scaleY(1);} 50%{ transform:rotate(-60deg) scaleY(0.55);} }
+
+  .bat1{ animation: fly1 9s linear infinite; }
+  .bat2{ animation: fly2 12s linear infinite; animation-delay:2.5s; }
+  .bat3{ animation: fly3 10.5s linear infinite; animation-delay:5s; }
+
+  @keyframes fly1{
+    0%{ left:-20px; top:100px; }
+    50%{ top:70px; }
+    100%{ left:400px; top:110px; }
+  }
+  @keyframes fly2{
+    0%{ left:400px; top:40px; }
+    50%{ top:65px; }
+    100%{ left:-20px; top:30px; }
+  }
+  @keyframes fly3{
+    0%{ left:-20px; top:130px; }
+    50%{ top:100px; }
+    100%{ left:400px; top:135px; }
+  }
+
+  .hill-back, .hill-front{
+    position:absolute; bottom:0; left:0; width:100%;
+  }
+  .hill-back{
+    height:58px;
+    background:var(--mid-violet);
+    opacity:0.6;
+    clip-path: polygon(0% 100%, 0% 55%, 12% 40%, 28% 55%, 45% 35%, 60% 58%, 78% 42%, 100% 60%, 100% 100%);
+  }
+  .hill-front{
+    height:36px;
+    background:#170a28;
+    clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 35% 68%, 55% 48%, 75% 66%, 100% 45%, 100% 100%);
+  }
+
+  /* raven perched on hill spike */
+  .raven{
+    position:absolute;
+    bottom:32px; left:66%;
+    width:16px; height:10px;
+  }
+  .raven::before{
+    content:"";
+    position:absolute;
+    width:12px; height:8px;
+    background:var(--void);
+    border-radius:50% 50% 40% 40%;
+  }
+  .raven::after{
+    content:"";
+    position:absolute;
+    top:-2px; left:9px;
+    width:0; height:0;
+    border-left:5px solid var(--void);
+    border-top:2px solid transparent;
+    border-bottom:2px solid transparent;
+  }
+
+  .sky-fade{
+    position:absolute; left:0; right:0; bottom:0; height:50px;
+    background:linear-gradient(180deg, rgba(28,10,48,0) 0%, var(--deep-violet) 100%);
+  }
+
+  /* ---------- header ---------- */
+  .header{ position:relative; text-align:center; padding:10px 0 12px; }
+  .month{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-size:32px;
+    color:var(--text-parch);
+    text-shadow:0 0 16px rgba(178,59,255,0.65), 0 0 30px rgba(255,61,110,0.25);
+    margin:0;
+    letter-spacing:1px;
+  }
+  .year{
+    font-family:'Cinzel', serif;
+    font-size:11px;
+    letter-spacing:4px;
+    color:var(--text-dim);
+    margin-top:4px;
+  }
+  .divider{
+    width:120px; height:1px;
+    margin:10px auto 0;
+    background:linear-gradient(90deg, transparent, var(--eerie-purple), transparent);
+    position:relative;
+  }
+  .divider::before{
+    content:"✦";
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:9px;
+    color:var(--eerie-red);
+    background:var(--deep-violet);
+    padding:0 4px;
+  }
+
+  /* ---------- calendar ---------- */
+  .cal{ position:relative; padding:14px 20px 18px; }
+  .dow{ display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:8px; }
+  .dow span{
+    text-align:center;
+    font-family:'Cinzel', serif;
+    font-size:10.5px;
+    font-weight:600;
+    letter-spacing:1px;
+    color:var(--eerie-purple);
+    opacity:0.8;
+  }
+  .grid{ display:grid; grid-template-columns:repeat(7,1fr); row-gap:7px; }
+  .day{
+    position:relative;
+    text-align:center;
+    padding:8px 0;
+    font-size:15px;
+    font-weight:600;
+    color:var(--text-parch);
+    border-radius:4px;
+  }
+  .day.empty{ visibility:hidden; }
+  .day.weekend{ color:var(--eerie-red); }
+  .day.today{
+    background:linear-gradient(180deg, rgba(178,59,255,0.32), rgba(255,61,110,0.10));
+    box-shadow:0 0 14px rgba(178,59,255,0.55);
+  }
+  .day.today::after{
+    content:"";
+    position:absolute; bottom:1px; left:50%;
+    transform:translateX(-50%);
+    width:3px; height:3px;
+    border-radius:50%;
+    background:var(--eerie-red);
+    box-shadow:0 0 7px 2px var(--eerie-red);
+  }
+
+  /* ---------- altar / sword ---------- */
+  .altar{
+    position:relative; height:64px;
+    margin:2px 0 2px;
+    display:flex; align-items:flex-end; justify-content:center;
+  }
+  .beam{
+    position:absolute; bottom:0;
+    width:50px; height:64px;
+    background:linear-gradient(180deg, rgba(178,59,255,0.38), rgba(255,61,110,0.12) 60%, transparent 90%);
+    clip-path:polygon(50% 0%, 100% 100%, 0% 100%);
+    filter:blur(2px);
+  }
+  .sword{ position:relative; display:flex; flex-direction:column; align-items:center; }
+  .pommel{ width:6px; height:6px; background:var(--text-parch); border-radius:1px; box-shadow:0 0 8px 2px var(--eerie-purple); }
+  .grip{ width:4px; height:10px; background:#241033; }
+  .guard{
+    width:28px; height:4px;
+    background:linear-gradient(90deg, transparent, var(--eerie-purple) 20%, var(--text-parch) 50%, var(--eerie-red) 80%, transparent);
+    box-shadow:0 0 10px rgba(178,59,255,0.7);
+  }
+  .blade{
+    width:4px; height:36px;
+    background:linear-gradient(180deg, var(--text-parch), var(--eerie-purple) 55%, rgba(255,61,110,0.25));
+    box-shadow:0 0 12px 2px rgba(255,61,110,0.5);
+  }
+
+  .footer-note{
+    text-align:center;
+    font-family:'Cinzel', serif;
+    font-size:10px;
+    letter-spacing:2px;
+    color:var(--text-dim);
+    padding:0 20px 22px;
+    opacity:0.75;
+  }
+</style>
+</head>
+<body>
+
+  <div class="widget">
+    <div class="corner-bl"></div>
+    <div class="corner-br"></div>
+
+    <div class="sky">
+      <div class="stars"></div>
+      <div class="moon"></div>
+      <div class="bat bat1"></div>
+      <div class="bat bat2"></div>
+      <div class="bat bat3"></div>
+      <div class="hill-back"></div>
+      <div class="raven"></div>
+      <div class="hill-front"></div>
+      <div class="sky-fade"></div>
+    </div>
+
+    <div class="header">
+      <p class="month">July</p>
+      <div class="year">2 0 2 6</div>
+      <div class="divider"></div>
+    </div>
+
+    <div class="cal">
+      <div class="dow">
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+      </div>
+      <div class="grid" id="grid"></div>
+    </div>
+
+    <div class="altar">
+      <div class="beam"></div>
+      <div class="sword">
+        <div class="pommel"></div>
+        <div class="grip"></div>
+        <div class="guard"></div>
+        <div class="blade"></div>
+      </div>
+    </div>
+
+    <div class="footer-note">the hollow hours keep watch</div>
+  </div>
+
+<script>
+  // Auto-detects the real current date — no manual editing needed.
+  const now = new Date();
+  const year = now.getFullYear();
+  const monthIndex = now.getMonth(); // 0 = Jan ... 11 = Dec
+  const today = now.getDate();
+
+  const firstOfMonth = new Date(year, monthIndex, 1);
+  const firstDayCol = firstOfMonth.getDay(); // 0 = Sun ... 6 = Sat
+  const daysInMonth = new Date(year, monthIndex + 1, 0).getDate();
+
+  const monthNames = ["January","February","March","April","May","June",
+                       "July","August","September","October","November","December"];
+  document.querySelector('.month').textContent = monthNames[monthIndex];
+  document.querySelector('.year').textContent = String(year).split('').join(' ');
+
+  const grid = document.getElementById('grid');
+
+  for(let i=0;i<firstDayCol;i++){
+    const empty = document.createElement('div');
+    empty.className='day empty';
+    grid.appendChild(empty);
+  }
+  for(let d=1; d<=daysInMonth; d++){
+    const col = (firstDayCol + d - 1) % 7;
+    const cell = document.createElement('div');
+    cell.className = 'day' + (col===0||col===6 ? ' weekend' : '') + (d===today ? ' today' : '');
+    cell.textContent = d;
+    grid.appendChild(cell);
+  }
+</script>
+
+</body>
+</html>
