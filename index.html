@@ -20,21 +20,19 @@
   }
 
   *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; height:100%; background:#0b0614; }
+  html,body{ margin:0; padding:0; height:100%; background:transparent; }
 
   body{
     font-family:'Cormorant Garamond', serif;
     display:flex; align-items:center; justify-content:center;
     min-height:100vh;
-    overflow:hidden;
   }
 
   .widget{
     position:relative;
-    width:100%;
-    height:100%;
-    max-width:none;
-    border-radius:0;
+    width:380px;
+    max-width:94vw;
+    border-radius:6px;
     overflow:hidden;
     background:
       radial-gradient(ellipse at 50% 0%, rgba(178,59,255,0.10), transparent 55%),
