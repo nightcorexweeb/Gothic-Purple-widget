@@ -68,7 +68,7 @@
   /* ---------- sky ---------- */
   .sky{
     position:relative;
-    height:158px;
+    height:112px;
     overflow:hidden;
     clip-path: polygon(0 0, 100% 0, 100% 82%, 50% 100%, 0 82%);
   }
@@ -93,9 +93,9 @@
 
   .moon{
     position:absolute;
-    top:20px; left:50%;
+    top:12px; left:50%;
     transform:translateX(-50%);
-    width:44px; height:44px;
+    width:34px; height:34px;
     border-radius:50%;
     background:radial-gradient(circle at 38% 32%, #e8dcef 0%, var(--moon-sick) 45%, #7a5f92 100%);
     box-shadow:
@@ -127,8 +127,8 @@
   /* bats */
   .bat{
     position:absolute;
-    top:70px;
-    width:14px; height:6px;
+    top:50px;
+    width:12px; height:5px;
     opacity:0.85;
   }
   .bat::before, .bat::after{
@@ -149,32 +149,32 @@
   .bat3{ animation: fly3 10.5s linear infinite; animation-delay:5s; }
 
   @keyframes fly1{
-    0%{ left:-20px; top:100px; }
-    50%{ top:70px; }
-    100%{ left:400px; top:110px; }
+    0%{ left:-20px; top:70px; }
+    50%{ top:48px; }
+    100%{ left:400px; top:78px; }
   }
   @keyframes fly2{
-    0%{ left:400px; top:40px; }
-    50%{ top:65px; }
-    100%{ left:-20px; top:30px; }
+    0%{ left:400px; top:26px; }
+    50%{ top:44px; }
+    100%{ left:-20px; top:20px; }
   }
   @keyframes fly3{
-    0%{ left:-20px; top:130px; }
-    50%{ top:100px; }
-    100%{ left:400px; top:135px; }
+    0%{ left:-20px; top:92px; }
+    50%{ top:70px; }
+    100%{ left:400px; top:95px; }
   }
 
   .hill-back, .hill-front{
     position:absolute; bottom:0; left:0; width:100%;
   }
   .hill-back{
-    height:58px;
+    height:42px;
     background:var(--mid-violet);
     opacity:0.6;
     clip-path: polygon(0% 100%, 0% 55%, 12% 40%, 28% 55%, 45% 35%, 60% 58%, 78% 42%, 100% 60%, 100% 100%);
   }
   .hill-front{
-    height:36px;
+    height:26px;
     background:#170a28;
     clip-path: polygon(0% 100%, 0% 70%, 15% 50%, 35% 68%, 55% 48%, 75% 66%, 100% 45%, 100% 100%);
   }
@@ -182,8 +182,8 @@
   /* raven perched on hill spike */
   .raven{
     position:absolute;
-    bottom:32px; left:66%;
-    width:16px; height:10px;
+    bottom:23px; left:66%;
+    width:14px; height:9px;
   }
   .raven::before{
     content:"";
@@ -203,15 +203,15 @@
   }
 
   .sky-fade{
-    position:absolute; left:0; right:0; bottom:0; height:50px;
+    position:absolute; left:0; right:0; bottom:0; height:36px;
     background:linear-gradient(180deg, rgba(28,10,48,0) 0%, var(--deep-violet) 100%);
   }
 
   /* ---------- header ---------- */
-  .header{ position:relative; text-align:center; padding:10px 0 12px; }
+  .header{ position:relative; text-align:center; padding:6px 0 6px; }
   .month{
     font-family:'UnifrakturMaguntia', cursive;
-    font-size:32px;
+    font-size:26px;
     color:var(--text-parch);
     text-shadow:0 0 16px rgba(178,59,255,0.65), 0 0 30px rgba(255,61,110,0.25);
     margin:0;
@@ -219,14 +219,14 @@
   }
   .year{
     font-family:'Cinzel', serif;
-    font-size:11px;
+    font-size:10px;
     letter-spacing:4px;
     color:var(--text-dim);
-    margin-top:4px;
+    margin-top:3px;
   }
   .divider{
-    width:120px; height:1px;
-    margin:10px auto 0;
+    width:110px; height:1px;
+    margin:7px auto 0;
     background:linear-gradient(90deg, transparent, var(--eerie-purple), transparent);
     position:relative;
   }
@@ -241,8 +241,8 @@
   }
 
   /* ---------- calendar ---------- */
-  .cal{ position:relative; padding:14px 20px 18px; }
-  .dow{ display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:8px; }
+  .cal{ position:relative; padding:8px 18px 10px; }
+  .dow{ display:grid; grid-template-columns:repeat(7,1fr); margin-bottom:5px; }
   .dow span{
     text-align:center;
     font-family:'Cinzel', serif;
@@ -252,12 +252,15 @@
     color:var(--eerie-purple);
     opacity:0.8;
   }
-  .grid{ display:grid; grid-template-columns:repeat(7,1fr); row-gap:7px; }
+  .dow span.weekend-label{ color:var(--eerie-red); opacity:0.85; }
+  .grid{ display:grid; grid-template-columns:repeat(7,1fr); row-gap:4px; }
   .day{
     position:relative;
-    text-align:center;
-    padding:8px 0;
-    font-size:15px;
+    display:flex;
+    align-items:center;
+    justify-content:center;
+    aspect-ratio:1 / 1;
+    font-size:14px;
     font-weight:600;
     color:var(--text-parch);
     border-radius:4px;
@@ -280,27 +283,27 @@
 
   /* ---------- altar / sword ---------- */
   .altar{
-    position:relative; height:64px;
-    margin:2px 0 2px;
+    position:relative; height:44px;
+    margin:0;
     display:flex; align-items:flex-end; justify-content:center;
   }
   .beam{
     position:absolute; bottom:0;
-    width:50px; height:64px;
+    width:40px; height:44px;
     background:linear-gradient(180deg, rgba(178,59,255,0.38), rgba(255,61,110,0.12) 60%, transparent 90%);
     clip-path:polygon(50% 0%, 100% 100%, 0% 100%);
     filter:blur(2px);
   }
   .sword{ position:relative; display:flex; flex-direction:column; align-items:center; }
-  .pommel{ width:6px; height:6px; background:var(--text-parch); border-radius:1px; box-shadow:0 0 8px 2px var(--eerie-purple); }
-  .grip{ width:4px; height:10px; background:#241033; }
+  .pommel{ width:5px; height:5px; background:var(--text-parch); border-radius:1px; box-shadow:0 0 8px 2px var(--eerie-purple); }
+  .grip{ width:3px; height:7px; background:#241033; }
   .guard{
-    width:28px; height:4px;
+    width:22px; height:3px;
     background:linear-gradient(90deg, transparent, var(--eerie-purple) 20%, var(--text-parch) 50%, var(--eerie-red) 80%, transparent);
     box-shadow:0 0 10px rgba(178,59,255,0.7);
   }
   .blade{
-    width:4px; height:36px;
+    width:3px; height:24px;
     background:linear-gradient(180deg, var(--text-parch), var(--eerie-purple) 55%, rgba(255,61,110,0.25));
     box-shadow:0 0 12px 2px rgba(255,61,110,0.5);
   }
@@ -311,7 +314,7 @@
     font-size:10px;
     letter-spacing:2px;
     color:var(--text-dim);
-    padding:0 20px 22px;
+    padding:0 20px 16px;
     opacity:0.75;
   }
 </style>
@@ -342,7 +345,7 @@
 
     <div class="cal">
       <div class="dow">
-        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span>F</span><span>S</span>
+        <span>S</span><span>M</span><span>T</span><span>W</span><span>T</span><span class="weekend-label">F</span><span class="weekend-label">S</span>
       </div>
       <div class="grid" id="grid"></div>
     </div>
@@ -386,7 +389,7 @@
   for(let d=1; d<=daysInMonth; d++){
     const col = (firstDayCol + d - 1) % 7;
     const cell = document.createElement('div');
-    cell.className = 'day' + (col===0||col===6 ? ' weekend' : '') + (d===today ? ' today' : '');
+    cell.className = 'day' + (col===5||col===6 ? ' weekend' : '') + (d===today ? ' today' : '');
     cell.textContent = d;
     grid.appendChild(cell);
   }
