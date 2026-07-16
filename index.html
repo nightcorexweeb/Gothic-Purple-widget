@@ -366,6 +366,23 @@
   </div>
 
 <script>
+  // Keeps the card perfectly square by measuring the *actual* iframe box
+  // Notion gives us, rather than trusting the vh unit (which can misbehave
+  // inside embed iframes and cause clipping).
+  function sizeWidget(){
+    const w = document.documentElement.clientWidth;
+    const h = document.documentElement.clientHeight;
+    const size = Math.max(60, Math.min(w, h));
+    const widget = document.querySelector('.widget');
+    widget.style.width = size + 'px';
+    widget.style.height = size + 'px';
+  }
+  window.addEventListener('resize', sizeWidget);
+  window.addEventListener('load', sizeWidget);
+  sizeWidget();
+  setTimeout(sizeWidget, 300);
+  setTimeout(sizeWidget, 1000);
+
   // Auto-detects the real current date — no manual editing needed.
   const now = new Date();
   const year = now.getFullYear();
