@@ -1,0 +1,386 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Gothic Clock</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;700&family=Cormorant+Garamond:wght@500;600&family=UnifrakturMaguntia&family=VT323&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --void:          #0b0614;
+    --deep-violet:   #1c0a30;
+    --mid-violet:    #33144e;
+    --eerie-purple:  #8661bb;
+    --eerie-red:     #ff3d6e;
+    --moon-sick:     #cdb9de;
+    --text-parch:    #e9dcf5;
+    --text-dim:      #9d84b8;
+  }
+
+  *{ box-sizing:border-box; }
+  html,body{ margin:0; padding:0; background:#0b0614; }
+
+  body{
+    font-family:'Cormorant Garamond', serif;
+    display:flex; align-items:flex-start; justify-content:center;
+  }
+
+  .widget{
+    position:relative;
+    width:100%;
+    min-height:150px;
+    border-radius:12px;
+    overflow:hidden;
+    display:flex;
+    flex-direction:column;
+    align-items:center;
+    justify-content:center;
+    padding:16px 18px;
+    background:
+      radial-gradient(ellipse at 50% -10%, rgba(178,59,255,0.16), transparent 60%),
+      linear-gradient(160deg, var(--void) 0%, var(--deep-violet) 55%, #150826 100%);
+    box-shadow:
+      0 20px 50px -18px rgba(0,0,0,0.85),
+      0 0 0 1px rgba(178,59,255,0.18) inset,
+      0 0 30px rgba(122,26,107,0.22);
+    color:var(--text-parch);
+  }
+
+  /* ---------- VHS / camcorder overlay ---------- */
+  .vhs-tint{
+    position:absolute; inset:0;
+    background:rgba(150,90,210,0.16);
+    mix-blend-mode:color;
+    z-index:20;
+    pointer-events:none;
+  }
+  .vhs-grain{
+    position:absolute; inset:-20%;
+    width:140%; height:140%;
+    background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='140' height='140'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix type='saturate' values='0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity:0.10;
+    mix-blend-mode:overlay;
+    z-index:21;
+    pointer-events:none;
+    animation:grain-shift 0.5s steps(3) infinite;
+  }
+  @keyframes grain-shift{
+    0%{ transform:translate(0,0); }
+    33%{ transform:translate(-2%,1%); }
+    66%{ transform:translate(1%,-2%); }
+    100%{ transform:translate(0,0); }
+  }
+  .vhs-scanlines{
+    position:absolute; inset:0;
+    background:repeating-linear-gradient(
+      to bottom,
+      rgba(0,0,0,0) 0px,
+      rgba(0,0,0,0.16) 1px,
+      rgba(0,0,0,0) 2px,
+      rgba(0,0,0,0) 3px
+    );
+    z-index:22;
+    pointer-events:none;
+  }
+  .vhs-tracking{
+    position:absolute;
+    left:0; width:100%; height:8px;
+    background:linear-gradient(180deg, transparent, rgba(232,222,245,0.10), transparent);
+    z-index:23;
+    pointer-events:none;
+    animation:tracking-sweep 7s linear infinite;
+  }
+  @keyframes tracking-sweep{
+    0%{ top:-8px; }
+    100%{ top:100%; }
+  }
+  .vhs-vignette{
+    position:absolute; inset:0;
+    box-shadow: inset 0 0 40px 14px rgba(0,0,0,0.55);
+    z-index:19;
+    pointer-events:none;
+  }
+
+  .vhs-ui{
+    font-family:'VT323', monospace;
+    color:rgba(232,222,245,0.85);
+    text-shadow:0 0 4px rgba(180,120,230,0.6);
+    z-index:24;
+    pointer-events:none;
+  }
+  .vhs-play{
+    position:absolute; top:8px; left:10px;
+    font-size:11px; letter-spacing:1.5px;
+    display:flex; align-items:center; gap:3px;
+  }
+  .vhs-play::before{ content:"▶"; font-size:8px; }
+  .vhs-rec{
+    position:absolute; top:8px; right:10px;
+    font-size:11px; letter-spacing:1.5px;
+    display:flex; align-items:center; gap:4px;
+    animation:tc-blink 1.3s steps(1) infinite;
+  }
+  .vhs-rec .dot{
+    width:5px; height:5px; border-radius:50%;
+    background:#ff3d6e;
+    box-shadow:0 0 5px 2px rgba(255,61,110,0.75);
+  }
+  @keyframes tc-blink{ 50%{ opacity:0.3; } }
+
+  .stars{
+    position:absolute; inset:0;
+    background-image:
+      radial-gradient(1.2px 1.2px at 14px 18px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 46px 34px, #e9dcf5, transparent),
+      radial-gradient(1.2px 1.2px at 82px 14px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 120px 30px, #e9dcf5, transparent),
+      radial-gradient(1.2px 1.2px at 160px 20px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 200px 12px, #e9dcf5, transparent),
+      radial-gradient(1.2px 1.2px at 240px 28px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 30px 60px, #e9dcf5, transparent),
+      radial-gradient(1px 1px at 270px 50px, #e9dcf5, transparent);
+    opacity:0.35;
+    animation: twinkle 5s ease-in-out infinite alternate;
+  }
+  @keyframes twinkle{ from{opacity:0.2;} to{opacity:0.5;} }
+
+  .corner{
+    position:absolute;
+    width:7px; height:7px;
+    border:1px solid rgba(178,59,255,0.5);
+    transform:rotate(45deg);
+    z-index:5;
+  }
+  .corner.tl{ top:9px; left:9px; }
+  .corner.tr{ top:9px; right:9px; }
+  .corner.bl{ bottom:9px; left:9px; }
+  .corner.br{ bottom:9px; right:9px; }
+
+  .crescent{
+    position:relative;
+    width:14px; height:14px;
+    border-radius:50%;
+    background:transparent;
+    box-shadow: 6px -1px 0 0 var(--moon-sick);
+    filter: drop-shadow(0 0 5px rgba(205,185,222,0.55));
+    margin-bottom:6px;
+  }
+
+  /* ---------- bonfire ---------- */
+  .bonfire{
+    position:absolute;
+    bottom:10px; left:14px;
+    width:30px; height:34px;
+    z-index:4;
+  }
+  .logs{
+    position:absolute;
+    bottom:0; left:2px;
+    width:22px; height:5px;
+  }
+  .logs::before, .logs::after{
+    content:"";
+    position:absolute;
+    width:22px; height:3px;
+    background:#2a1638;
+    border-radius:1px;
+  }
+  .logs::before{ transform:rotate(8deg); bottom:1px; }
+  .logs::after{ transform:rotate(-10deg); bottom:0; }
+
+  .flame{
+    position:absolute;
+    bottom:5px; left:8px;
+    width:12px; height:20px;
+  }
+  .flame span{
+    position:absolute;
+    bottom:0; left:0;
+    width:100%; height:100%;
+    border-radius:50% 50% 50% 50% / 65% 65% 35% 35%;
+    background:radial-gradient(circle at 50% 80%, var(--text-parch) 0%, var(--eerie-red) 35%, var(--eerie-purple) 70%, transparent 100%);
+    transform-origin:bottom center;
+    opacity:0.9;
+    filter: drop-shadow(0 0 6px rgba(255,61,110,0.55));
+    animation: flicker 1.6s ease-in-out infinite;
+  }
+  .flame span.f2{
+    width:70%; height:75%; left:15%;
+    animation-delay:0.3s;
+    animation-duration:1.3s;
+    opacity:0.75;
+  }
+  @keyframes flicker{
+    0%,100%{ transform:scaleY(1) scaleX(1) rotate(0deg); }
+    30%{ transform:scaleY(1.12) scaleX(0.92) rotate(-2deg); }
+    60%{ transform:scaleY(0.9) scaleX(1.05) rotate(2deg); }
+  }
+
+  .ember{
+    position:absolute;
+    bottom:22px;
+    width:2px; height:2px;
+    border-radius:50%;
+    background:var(--eerie-red);
+    box-shadow:0 0 4px 1px rgba(255,61,110,0.7);
+    opacity:0;
+    animation: rise 2.6s ease-in infinite;
+  }
+  .ember.e1{ left:11px; animation-delay:0s; }
+  .ember.e2{ left:16px; animation-delay:0.9s; }
+  .ember.e3{ left:14px; animation-delay:1.8s; }
+  @keyframes rise{
+    0%{ opacity:0; transform:translate(0,0); }
+    15%{ opacity:0.9; }
+    100%{ opacity:0; transform:translate(4px,-26px); }
+  }
+
+  /* small sword resting against the logs */
+  .rest-sword{
+    position:absolute;
+    bottom:9px; left:36px;
+    width:16px; height:26px;
+    transform:rotate(18deg);
+    transform-origin:bottom center;
+    z-index:3;
+  }
+  .rest-sword .blade-mini{
+    position:absolute;
+    bottom:4px; left:6px;
+    width:2.5px; height:20px;
+    background:linear-gradient(180deg, var(--text-parch), var(--eerie-purple) 60%, rgba(255,61,110,0.2));
+    box-shadow:0 0 8px 1px rgba(178,59,255,0.55);
+  }
+  .rest-sword .guard-mini{
+    position:absolute;
+    bottom:20px; left:1px;
+    width:12px; height:2px;
+    background:linear-gradient(90deg, transparent, var(--eerie-purple), var(--text-parch), var(--eerie-purple), transparent);
+  }
+  .rest-sword .pommel-mini{
+    position:absolute;
+    bottom:0; left:5.5px;
+    width:3px; height:3px;
+    border-radius:1px;
+    background:var(--text-parch);
+    box-shadow:0 0 5px 1px var(--eerie-purple);
+  }
+
+  .time{
+    font-family:'UnifrakturMaguntia', cursive;
+    font-size:38px;
+    line-height:1;
+    color:var(--text-parch);
+    text-shadow:
+      -1.5px 0 rgba(255,60,180,0.5),
+      1.5px 0 rgba(80,220,255,0.4),
+      0 0 14px rgba(178,59,255,0.6),
+      0 0 26px rgba(255,61,110,0.22);
+    letter-spacing:1px;
+    white-space:nowrap;
+  }
+  .time .colon{
+    animation: blink 2s step-start infinite;
+  }
+  @keyframes blink{ 50%{ opacity:0.15; } }
+
+  .meridiem{
+    font-family:'Cinzel', serif;
+    font-size:11px;
+    letter-spacing:3px;
+    color:var(--eerie-purple);
+    margin-top:2px;
+  }
+
+  .divider{
+    width:80px; height:1px;
+    margin:9px auto 8px;
+    background:linear-gradient(90deg, transparent, var(--eerie-purple), transparent);
+    position:relative;
+  }
+  .divider::before{
+    content:"✦";
+    position:absolute; top:50%; left:50%;
+    transform:translate(-50%,-50%);
+    font-size:8px;
+    color:var(--eerie-red);
+    background:var(--deep-violet);
+    padding:0 4px;
+  }
+
+  .date{
+    font-family:'Cinzel', serif;
+    font-size:10.5px;
+    letter-spacing:2px;
+    color:var(--text-dim);
+    text-align:center;
+  }
+</style>
+</head>
+<body>
+
+  <div class="widget">
+    <div class="stars"></div>
+    <div class="corner tl"></div>
+    <div class="corner tr"></div>
+    <div class="corner bl"></div>
+    <div class="corner br"></div>
+
+    <div class="vhs-vignette"></div>
+    <div class="vhs-tint"></div>
+    <div class="vhs-grain"></div>
+    <div class="vhs-scanlines"></div>
+    <div class="vhs-tracking"></div>
+    <div class="vhs-ui">
+      <div class="vhs-play">PLAY</div>
+      <div class="vhs-rec"><span class="dot"></span>REC</div>
+    </div>
+
+    <div class="bonfire">
+      <div class="logs"></div>
+      <div class="flame"><span class="f1"></span><span class="f2"></span></div>
+      <div class="ember e1"></div>
+      <div class="ember e2"></div>
+      <div class="ember e3"></div>
+    </div>
+    <div class="rest-sword">
+      <div class="blade-mini"></div>
+      <div class="guard-mini"></div>
+      <div class="pommel-mini"></div>
+    </div>
+
+    <div class="crescent"></div>
+    <div class="time" id="time">--:--</div>
+    <div class="meridiem" id="meridiem"></div>
+    <div class="divider"></div>
+    <div class="date" id="date"></div>
+  </div>
+
+<script>
+  const dayNames = ["SUNDAY","MONDAY","TUESDAY","WEDNESDAY","THURSDAY","FRIDAY","SATURDAY"];
+  const monthNames = ["JAN","FEB","MAR","APR","MAY","JUN","JUL","AUG","SEP","OCT","NOV","DEC"];
+
+  function pad(n){ return n < 10 ? "0" + n : n; }
+
+  function tick(){
+    const now = new Date();
+    let hours = now.getHours();
+    const minutes = pad(now.getMinutes());
+    const meridiem = hours >= 12 ? "PM" : "AM";
+    hours = hours % 12;
+    if(hours === 0) hours = 12;
+
+    document.getElementById('time').innerHTML =
+      hours + '<span class="colon">:</span>' + minutes;
+    document.getElementById('meridiem').textContent = meridiem;
+    document.getElementById('date').textContent =
+      dayNames[now.getDay()] + " · " + monthNames[now.getMonth()] + " " + now.getDate();
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>
+
+</body>
+</html>
