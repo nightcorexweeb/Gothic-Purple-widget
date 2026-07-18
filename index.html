@@ -20,7 +20,7 @@
   }
 
   *{ box-sizing:border-box; }
-  html,body{ margin:0; padding:0; background:#0b0614; }
+  html,body{ margin:0; padding:0; background:#0b0614; overflow:hidden; }
 
   body{
     font-family:'Cormorant Garamond', serif;
@@ -126,13 +126,13 @@
     pointer-events:none;
   }
   .vhs-play{
-    position:absolute; top:12px; left:14px;
+    position:absolute; top:12px; left:24px;
     font-size:15px; letter-spacing:2px;
     display:flex; align-items:center; gap:5px;
   }
   .vhs-play::before{ content:"▶"; font-size:10px; }
   .vhs-timecode{
-    position:absolute; top:12px; right:14px;
+    position:absolute; top:12px; right:24px;
     font-size:15px; letter-spacing:2px;
     display:flex; align-items:center; gap:5px;
     animation:tc-blink 1.3s steps(1) infinite;
@@ -144,9 +144,10 @@
   }
   @keyframes tc-blink{ 50%{ opacity:0.3; } }
   .vhs-stamp{
-    position:absolute; bottom:8px; left:14px;
-    font-size:14px; line-height:1.2;
+    position:absolute; top:92px; left:16px;
+    font-size:12px; line-height:1.2;
     letter-spacing:1px;
+    opacity:0.85;
   }
 
   /* ---------- sky ---------- */
